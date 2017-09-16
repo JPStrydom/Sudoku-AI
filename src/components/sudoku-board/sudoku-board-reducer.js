@@ -1,25 +1,26 @@
 import buildActionName from '../../redux/build-action-name';
-import validateCell from './utilities/sudoku-board-validator';
+import { validateCell, validateBoard } from './utilities/sudoku-board-validator';
 
 const reducerName = 'sudokuBoardReducer';
 
 const UPDATE_BOARD = buildActionName(reducerName, 'UPDATE_BOARD');
-const UPDATE_CELL = buildActionName(reducerName, 'UPDATE_CELL');
 
-const initialState = {
-    board: [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    ],
-    isValid: true
-};
+function getInitialState() {
+    return {
+        board: [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ],
+        isValid: true
+    };
+}
 
 function updateBoard(payload) {
     return {
@@ -30,16 +31,27 @@ function updateBoard(payload) {
 
 export function updateCell(y, x, value, board) {
     board[y][x] = value;
-    const isValid = validateCell(y, x, board);
-    if (!isValid) {
+    if (!validateCell(y, x, board)) {
         board[y][x] = -1;
+        return updateBoard({ board, isValid: false });
     }
-    return updateBoard({ board, isValid });
+    return updateBoard({ board, isValid: validateBoard(board) });
 }
 
-export default function SudokuBoardReducer(state = initialState, action) {
+export function resetBoard() {
+    return updateBoard(getInitialState());
+}
+
+export function clearBoardErrors(board) {
+    board = board.map(row => row.map(cell => (cell === -1 ? 0 : cell)));
+    return updateBoard({ board, isValid: true });
+}
+
+export default function SudokuBoardReducer(state = getInitialState(), action) {
     switch (action.type) {
         case UPDATE_BOARD:
+            console.log('STATE: ', state);
+            console.log('ACTION: ', action);
             return { ...state, board: action.payload.board, isValid: action.payload.isValid };
     }
     return state;

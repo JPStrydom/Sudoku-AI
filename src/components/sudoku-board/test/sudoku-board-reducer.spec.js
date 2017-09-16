@@ -1,53 +1,58 @@
-import SudokuBoardReducer, { updateCell } from '../sudoku-board-reducer';
+import SudokuBoardReducer, { updateCell, resetBoard, clearBoardErrors } from '../sudoku-board-reducer';
 
-const newValidBoard = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0]
-];
-const newInvalidBoard = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, -1, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0]
-];
+function getInitialState() {
+    return {
+        board: [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ],
+        isValid: true
+    };
+}
+
+function getValidBoard() {
+    return [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+}
+
+function getInvalidBoard() {
+    return [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, -1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+}
 
 describe('Sudoku Board Reducer', () => {
-    function stateBefore() {
-        return {
-            board: [
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0]
-            ],
-            isValid: true
-        };
-    }
-
     it('should return the initial state for undefined actions', () => {
         const action = {};
 
         const actual = SudokuBoardReducer(undefined, action);
 
         const expected = {
-            ...stateBefore()
+            ...getInitialState()
         };
 
         expect(actual).toEqual(expected);
@@ -56,23 +61,23 @@ describe('Sudoku Board Reducer', () => {
     it('should return the current state for unknown actions', () => {
         const action = { type: 'SOME_UNKNOWN_ACTION' };
 
-        const actual = SudokuBoardReducer(stateBefore(), action);
+        const actual = SudokuBoardReducer(getInitialState(), action);
 
         const expected = {
-            ...stateBefore()
+            ...getInitialState()
         };
 
         expect(actual).toEqual(expected);
     });
 
     it('should return the updated state for a valid update board action', () => {
-        const action = updateCell(4, 4, 1, newValidBoard);
+        const action = updateCell(4, 4, 1, getValidBoard());
 
-        const actual = SudokuBoardReducer(stateBefore(), action);
+        const actual = SudokuBoardReducer(getInitialState(), action);
 
         const expected = {
-            ...stateBefore(),
-            board: newValidBoard,
+            ...getInitialState(),
+            board: getValidBoard(),
             isValid: true
         };
 
@@ -80,14 +85,38 @@ describe('Sudoku Board Reducer', () => {
     });
 
     it('should return the updated state for an invalid update board action', () => {
-        const action = updateCell(4, 4, -1, newValidBoard);
+        const action = updateCell(4, 4, -1, getValidBoard());
 
-        const actual = SudokuBoardReducer(stateBefore(), action);
+        const actual = SudokuBoardReducer(getInitialState(), action);
 
         const expected = {
-            ...stateBefore(),
-            board: newInvalidBoard,
+            ...getInitialState(),
+            board: getInvalidBoard(),
             isValid: false
+        };
+
+        expect(actual).toEqual(expected);
+    });
+
+    it('should reset the board for a valid reset board action', () => {
+        const action = resetBoard();
+
+        const actual = SudokuBoardReducer({ board: getValidBoard(), isValid: true }, action);
+
+        const expected = {
+            ...getInitialState()
+        };
+
+        expect(actual).toEqual(expected);
+    });
+
+    it('should clear the board of errors for a valid clear board errors action', () => {
+        const action = clearBoardErrors(getInvalidBoard());
+
+        const actual = SudokuBoardReducer({ board: getInvalidBoard(), isValid: false }, action);
+
+        const expected = {
+            ...getInitialState()
         };
 
         expect(actual).toEqual(expected);
