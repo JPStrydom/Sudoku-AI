@@ -24,11 +24,11 @@ input {
     outline: none;
 }
 
-.valid {
+.valid-cell {
     background-color: lightgreen;
 }
 
-.invalid {
+.invalid-cell {
     background-color: lightpink;
 }
 

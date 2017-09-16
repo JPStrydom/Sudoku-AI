@@ -32,7 +32,11 @@ function updateBoard(payload) {
 export function updateCell(y, x, value, board) {
     board[y][x] = value;
     if (!validateCell(y, x, board)) {
-        board[y][x] = -1;
+        if (board[y][x] >= 1 && board[y][x] <= 9) {
+            board[y][x] *= -1;
+        } else {
+            board[y][x] = 'e';
+        }
         return updateBoard({ board, isValid: false });
     }
     return updateBoard({ board, isValid: validateBoard(board) });
@@ -43,7 +47,7 @@ export function resetBoard() {
 }
 
 export function clearBoardErrors(board) {
-    board = board.map(row => row.map(cell => (cell === -1 ? 0 : cell)));
+    board = board.map(row => row.map(cell => (cell === 'e' ? 0 : cell)));
     return updateBoard({ board, isValid: true });
 }
 

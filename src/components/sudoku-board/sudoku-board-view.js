@@ -51,18 +51,19 @@ export default class SudokuBoardView extends Component {
 
     getCellValue(row, col) {
         const board = this.props.sudokuBoard.board;
-        return board[row][col] >= 1 && board[row][col] <= 9 ? board[row][col] : '';
+        const value = Math.abs(board[row][col]);
+        return value >= 1 && value <= 9 ? value : '';
     }
 
     getCellStyling(row, col) {
         const board = this.props.sudokuBoard.board;
         if (board[row][col] >= 1 && board[row][col] <= 9) {
-            return 'valid';
+            return 'valid-cell';
         }
-        if (board[row][col] === -1) {
-            return 'invalid';
+        if (board[row][col] === 0) {
+            return null;
         }
-        return null;
+        return 'invalid-cell';
     }
 
     handleCellInput(event, row, col) {
@@ -70,5 +71,6 @@ export default class SudokuBoardView extends Component {
         const value = event.target.value[event.target.value.length - 1];
 
         this.props.updateCell(row, col, value, board);
+        setTimeout(() => this.props.clearBoardErrors(board), 500);
     }
 }
