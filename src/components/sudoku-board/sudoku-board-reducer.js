@@ -50,8 +50,6 @@ export function clearBoardErrors(board) {
 export default function SudokuBoardReducer(state = getInitialState(), action) {
     switch (action.type) {
         case UPDATE_BOARD:
-            console.log('STATE: ', state);
-            console.log('ACTION: ', action);
             return { ...state, board: action.payload.board, isValid: action.payload.isValid };
     }
     return state;
