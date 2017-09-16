@@ -6,22 +6,39 @@ function transpose(matrix) {
     });
 }
 
-export default function validateCell(row, col, board) {
-    if (board[row][col] < 1 || board[row][col] > 9) {
-        return false;
+export function validateBoard(board) {
+    for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+            if (board[row][col] !== 0 && !validateCell(row, col, board)) {
+                return false;
+            }
+        }
     }
-    return validateRow(row, col, board) && validateColumn(row, col, board) && validateSector(row, col, board);
+    return true;
 }
 
-function validateRow(row, col, board) {
+export function validateCell(row, col, board) {
+    return (
+        validateCellValue(row, col, board) &&
+        validateCellInRow(row, col, board) &&
+        validateCellInColumn(row, col, board) &&
+        validateCellInSector(row, col, board)
+    );
+}
+
+function validateCellValue(row, col, board) {
+    return board[row][col] >= 1 && board[row][col] <= 9;
+}
+
+function validateCellInRow(row, col, board) {
     return board[row].filter(element => element === board[row][col]).length <= 1;
 }
 
-function validateColumn(row, col, board) {
-    return validateRow(col, row, transpose(board));
+function validateCellInColumn(row, col, board) {
+    return validateCellInRow(col, row, transpose(board));
 }
 
-function validateSector(row, col, board) {
+function validateCellInSector(row, col, board) {
     let rowBase = Math.floor(row / 3) * 3;
     let colBase = Math.floor(col / 3) * 3;
 
