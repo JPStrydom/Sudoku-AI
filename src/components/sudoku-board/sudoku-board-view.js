@@ -104,12 +104,11 @@ export default class SudokuBoardView extends Component {
 
     handleCellInput(event, row, col) {
         const board = this.props.sudokuBoard.board;
-        console.log(event.target.value);
         let value = event.target.value[event.target.value.length - 1];
-        if (event.keyCode === 46) {
-            value = 0;
-        }
         this.props.updateCell(row, col, value, board);
+        if (!value) {
+            return this.props.clearBoardErrors(board);
+        }
         setTimeout(() => this.props.clearBoardErrors(board), 500);
     }
 }
