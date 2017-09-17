@@ -48,7 +48,20 @@ export function resetBoard() {
 }
 
 export function clearBoardErrors(board) {
-    board = board.map(row => row.map(cell => (cell === 'e' ? 0 : cell)));
+    board = board.map((row, rowIndex) =>
+        row.map((cell, colIndex) => {
+            if (cell === 'e') {
+                return 0;
+            }
+            if (cell < 0) {
+                board[rowIndex][colIndex] = Math.abs(cell);
+                if (validateCell(rowIndex, colIndex, board)) {
+                    return Math.abs(cell);
+                }
+            }
+            return cell;
+        })
+    );
     return updateBoard({ board, isValid: validateBoard(board) });
 }
 

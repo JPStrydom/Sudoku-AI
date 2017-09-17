@@ -1,10 +1,28 @@
 import React, { Component } from 'react';
+import solve from './utilities/sudoku-AI';
 
 export default class SudokuBoardView extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            solvedCells: [
+                [false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false]
+            ],
+            solved: false
+        };
+
         this.renderSudokuBoard = this.renderSudokuBoard.bind(this);
+        this.solve = this.solve.bind(this);
+        this.reset = this.reset.bind(this);
         this.getCellValue = this.getCellValue.bind(this);
         this.handleCellInput = this.handleCellInput.bind(this);
         this.getCellStyling = this.getCellStyling.bind(this);
@@ -15,14 +33,10 @@ export default class SudokuBoardView extends Component {
             <div>
                 <h1 className={'heading'}>Sudoku AI</h1>
                 {this.renderSudokuBoard()}
-                <button
-                    className={'button'}
-                    onClick={() => this.props.solveBoard(this.props.sudokuBoard.board)}
-                    disabled={!this.props.sudokuBoard.isValid}
-                >
+                <button className={'button'} onClick={this.solve} disabled={!this.props.sudokuBoard.isValid || this.state.solved}>
                     <span>Solve</span>
                 </button>
-                <button className={'button'} onClick={this.props.resetBoard}>
+                <button className={'button'} onClick={this.reset}>
                     <span>Reset</span>
                 </button>
             </div>
@@ -45,6 +59,7 @@ export default class SudokuBoardView extends Component {
                                         value={this.getCellValue(rowIndex, colIndex)}
                                         onChange={event => this.handleCellInput(event, rowIndex, colIndex)}
                                         className={this.getCellStyling(rowIndex, colIndex)}
+                                        disabled={this.state.solved}
                                     />
                                 </td>
                             ))}
@@ -55,6 +70,18 @@ export default class SudokuBoardView extends Component {
         );
     }
 
+    solve() {
+        const board = this.props.sudokuBoard.board;
+        const solvedCells = board.map(row => row.map(cell => !(cell >= 1 && cell <= 9)));
+        this.setState({ solvedCells, solved: true });
+        this.props.solveBoard(board);
+    }
+
+    reset() {
+        this.setState({ solved: false });
+        this.props.resetBoard();
+    }
+
     getCellValue(row, col) {
         const board = this.props.sudokuBoard.board;
         const value = Math.abs(board[row][col]);
@@ -63,6 +90,9 @@ export default class SudokuBoardView extends Component {
 
     getCellStyling(row, col) {
         const board = this.props.sudokuBoard.board;
+        if (this.state.solvedCells[row][col] && this.state.solved) {
+            return 'solved-cell';
+        }
         if (board[row][col] >= 1 && board[row][col] <= 9) {
             return 'valid-cell';
         }
@@ -74,7 +104,11 @@ export default class SudokuBoardView extends Component {
 
     handleCellInput(event, row, col) {
         const board = this.props.sudokuBoard.board;
-        const value = event.target.value[event.target.value.length - 1];
+        console.log(event.target.value);
+        let value = event.target.value[event.target.value.length - 1];
+        if (event.keyCode === 46) {
+            value = 0;
+        }
         this.props.updateCell(row, col, value, board);
         setTimeout(() => this.props.clearBoardErrors(board), 500);
     }

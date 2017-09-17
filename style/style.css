@@ -24,7 +24,6 @@ input {
     padding: 0;
     border: 0;
     text-align: center;
-    font-weight: bold;
     width: 48px;
     height: 48px;
     font-size: 24px;
@@ -38,18 +37,21 @@ input {
     color: white;
     background-color: #4CAF50;
     transition: background-color 0.25s linear;
+    font-weight: bold;
 }
 
 .invalid-cell {
     color: white;
     background-color: #AF4E4C;
     transition: background-color 0.25s linear;
+    font-weight: bold;
 }
 
 .solved-cell {
     color: white;
-    background-color: #F0F;
+    background-color: rgba(76, 175, 80, 0.5);
     transition: background-color 0.25s linear;
+    font-weight: normal;
 }
 
 .button {
