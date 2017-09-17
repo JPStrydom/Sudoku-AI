@@ -70,6 +70,7 @@ input {
     margin-bottom: 20px;
     cursor: pointer;
     transition-duration: 0.25s;
+    outline: none !important;
 }
 
 button:hover {
