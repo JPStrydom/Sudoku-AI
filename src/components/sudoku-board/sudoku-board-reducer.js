@@ -48,7 +48,7 @@ export function resetBoard() {
 
 export function clearBoardErrors(board) {
     board = board.map(row => row.map(cell => (cell === 'e' ? 0 : cell)));
-    return updateBoard({ board, isValid: true });
+    return updateBoard({ board, isValid: validateBoard(board) });
 }
 
 export default function SudokuBoardReducer(state = getInitialState(), action) {
