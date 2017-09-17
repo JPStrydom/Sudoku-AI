@@ -15,7 +15,11 @@ export default class SudokuBoardView extends Component {
             <div>
                 <h1 className={'heading'}>Sudoku AI</h1>
                 {this.renderSudokuBoard()}
-                <button className={'button'} disabled={!this.props.sudokuBoard.isValid}>
+                <button
+                    className={'button'}
+                    onClick={() => this.props.solveBoard(this.props.sudokuBoard.board)}
+                    disabled={!this.props.sudokuBoard.isValid}
+                >
                     <span>Solve</span>
                 </button>
                 <button className={'button'} onClick={this.props.resetBoard}>
@@ -71,7 +75,6 @@ export default class SudokuBoardView extends Component {
     handleCellInput(event, row, col) {
         const board = this.props.sudokuBoard.board;
         const value = event.target.value[event.target.value.length - 1];
-
         this.props.updateCell(row, col, value, board);
         setTimeout(() => this.props.clearBoardErrors(board), 500);
     }

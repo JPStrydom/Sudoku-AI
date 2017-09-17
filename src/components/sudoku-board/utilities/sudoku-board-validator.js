@@ -27,7 +27,7 @@ export function validateCell(row, col, board) {
 }
 
 function validateCellValue(row, col, board) {
-    return board[row][col] >= 1 && board[row][col] <= 9;
+    return board[row][col] >= 1 && board[row][col] <= 9 && Number.isInteger(board[row][col]);
 }
 
 function validateCellInRow(row, col, board) {
