@@ -12,13 +12,13 @@ export default class SudokuBoardView extends Component {
 
     render() {
         return (
-            <div className="container">
-                <h1>Sudoku AI</h1>
+            <div>
+                <h1 className={'heading'}>Sudoku AI</h1>
                 {this.renderSudokuBoard()}
-                <button>
+                <button className={'button'} disabled={!this.props.sudokuBoard.isValid}>
                     <span>Solve</span>
                 </button>
-                <button onClick={this.props.resetBoard}>
+                <button className={'button'} onClick={this.props.resetBoard}>
                     <span>Reset</span>
                 </button>
             </div>
@@ -30,21 +30,23 @@ export default class SudokuBoardView extends Component {
         let cellCount = 0;
         return (
             <table id="grid">
-                {board.map((row, rowIndex) => (
-                    <tr>
-                        {row.map((cell, colIndex) => (
-                            <td>
-                                <input
-                                    id={`cell-${cellCount++}`}
-                                    type="text"
-                                    value={this.getCellValue(rowIndex, colIndex)}
-                                    onChange={event => this.handleCellInput(event, rowIndex, colIndex)}
-                                    className={this.getCellStyling(rowIndex, colIndex)}
-                                />
-                            </td>
-                        ))}
-                    </tr>
-                ))}
+                <tbody>
+                    {board.map((row, rowIndex) => (
+                        <tr key={`row-${cellCount}`}>
+                            {row.map((cell, colIndex) => (
+                                <td key={`data-${cellCount}`}>
+                                    <input
+                                        id={`cell-${cellCount++}`}
+                                        type="text"
+                                        value={this.getCellValue(rowIndex, colIndex)}
+                                        onChange={event => this.handleCellInput(event, rowIndex, colIndex)}
+                                        className={this.getCellStyling(rowIndex, colIndex)}
+                                    />
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
             </table>
         );
     }
