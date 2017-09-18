@@ -59,7 +59,7 @@ export function updateCell(y, x, value) {
             dispatch(updateErrorCellsAction({ errorCells, isValid: validateErrorCells(errorCells) }));
         } else {
             errorCells[y][x] = true;
-            if (!board[y][x]) {
+            if (!board[y][x] || board[y][x] < 1 || board[y][x] > 9) {
                 board[y][x] = 0;
             }
             dispatch(updateBoardAction({ board }));
@@ -71,7 +71,6 @@ export function updateCell(y, x, value) {
 export function clearBoardErrors() {
     return (dispatch, getState) => {
         let { board, errorCells } = getState().sudokuBoard;
-        console.log('ONE', errorCells);
         errorCells = errorCells.map((row, rowIndex) =>
             row.map((cell, colIndex) => {
                 if (cell && board[rowIndex][colIndex] === 0 || validateCell(rowIndex, colIndex, board)) {
@@ -80,7 +79,6 @@ export function clearBoardErrors() {
                 return cell;
             })
         );
-        console.log('TWO', errorCells);
         dispatch(updateErrorCellsAction({ errorCells, isValid: validateErrorCells(errorCells) }));
     };
 }
