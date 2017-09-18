@@ -1,17 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, compose } from 'redux';
-
 
 import App from './components/app';
-import reducers from './redux/reducers';
-
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+import configureStore from './redux/store';
 
 ReactDOM.render(
-    <Provider store={createStore(reducers, composeEnhancers())}>
+    <Provider store={configureStore()}>
         <App />
     </Provider>,
     document.querySelector('.container')
