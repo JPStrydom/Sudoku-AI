@@ -1,3 +1,7 @@
+export function validateErrorCells(errorCells) {
+    return !errorCells.filter(row => row.filter(cell => cell).length >= 1).length >= 1;
+}
+
 export function validateBoard(board) {
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
