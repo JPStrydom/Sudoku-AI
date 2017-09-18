@@ -1,5 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
 import { updateCell, resetBoard, clearBoardErrors, solveBoard } from './sudoku-board-reducer';
 import SudokuBoardView from './sudoku-board-view';
 

@@ -1,11 +1,3 @@
-function transpose(matrix) {
-    return matrix[0].map(function(col, index) {
-        return matrix.map(function(row) {
-            return row[index];
-        });
-    });
-}
-
 export function validateBoard(board) {
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
@@ -50,4 +42,12 @@ function validateCellInSector(row, col, board) {
         }
     }
     return true;
+}
+
+function transpose(matrix) {
+    return matrix[0].map(function(col, index) {
+        return matrix.map(function(row) {
+            return row[index];
+        });
+    });
 }

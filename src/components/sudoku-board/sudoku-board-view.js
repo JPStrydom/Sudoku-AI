@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import solve from './utilities/sudoku-AI';
 
 export default class SudokuBoardView extends Component {
     constructor(props) {
@@ -33,7 +32,11 @@ export default class SudokuBoardView extends Component {
             <div>
                 <h1 className={'heading'}>Sudoku AI</h1>
                 {this.renderSudokuBoard()}
-                <button className={'button'} onClick={this.solve} disabled={!this.props.sudokuBoard.isValid || this.state.solved}>
+                <button
+                    className={'button'}
+                    onClick={this.solve}
+                    disabled={!this.props.sudokuBoard.isValid || this.state.solved}
+                >
                     <span>Solve</span>
                 </button>
                 <button className={'button'} onClick={this.reset}>
