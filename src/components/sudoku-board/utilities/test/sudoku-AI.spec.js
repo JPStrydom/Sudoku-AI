@@ -1,4 +1,4 @@
-import solve from '../utilities/sudoku-AI';
+import solve from '../sudoku-AI';
 
 function getEasyBoard() {
     return [
