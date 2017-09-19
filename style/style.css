@@ -55,6 +55,7 @@ input {
 }
 
 .button {
+    min-width: 110px;
     background-color: #4CACAF;
     border: none;
     border-radius: 4px;

@@ -73,7 +73,7 @@ export function clearBoardErrors() {
         let { board, errorCells } = getState().sudokuBoard;
         errorCells = errorCells.map((row, rowIndex) =>
             row.map((cell, colIndex) => {
-                if (cell && board[rowIndex][colIndex] === 0 || validateCell(rowIndex, colIndex, board)) {
+                if ((cell && board[rowIndex][colIndex] === 0) || validateCell(rowIndex, colIndex, board)) {
                     return false;
                 }
                 return cell;
