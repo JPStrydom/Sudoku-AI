@@ -6,6 +6,7 @@ export default class SudokuBoardView extends Component {
 
         this.renderSudokuBoard = this.renderSudokuBoard.bind(this);
         this.renderSolveClearButton = this.renderSolveClearButton.bind(this);
+        this.renderResetButton = this.renderResetButton.bind(this);
         this.getCellValue = this.getCellValue.bind(this);
         this.handleCellInput = this.handleCellInput.bind(this);
         this.getCellStyling = this.getCellStyling.bind(this);
@@ -17,9 +18,7 @@ export default class SudokuBoardView extends Component {
                 <h1 className={'heading'}>Sudoku AI</h1>
                 {this.renderSudokuBoard()}
                 {this.renderSolveClearButton()}
-                <button className={'button'} onClick={this.props.reset}>
-                    <span>Reset</span>
-                </button>
+                {this.renderResetButton()}
             </div>
         );
     }
@@ -59,6 +58,14 @@ export default class SudokuBoardView extends Component {
         ) : (
             <button className={'button'} onClick={this.props.solveBoard} disabled={!this.props.sudokuBoard.isValid}>
                 <span>Solve</span>
+            </button>
+        );
+    }
+
+    renderResetButton() {
+        return (
+            <button className={'button'} onClick={this.props.reset}>
+                <span>Reset</span>
             </button>
         );
     }
