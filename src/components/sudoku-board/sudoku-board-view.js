@@ -7,6 +7,7 @@ export default class SudokuBoardView extends Component {
         this.renderSudokuBoard = this.renderSudokuBoard.bind(this);
         this.renderSolveClearButton = this.renderSolveClearButton.bind(this);
         this.renderResetButton = this.renderResetButton.bind(this);
+        this.renderGitHubLink = this.renderGitHubLink.bind(this);
         this.getCellValue = this.getCellValue.bind(this);
         this.handleCellInput = this.handleCellInput.bind(this);
         this.getCellStyling = this.getCellStyling.bind(this);
@@ -19,6 +20,8 @@ export default class SudokuBoardView extends Component {
                 {this.renderSudokuBoard()}
                 {this.renderSolveClearButton()}
                 {this.renderResetButton()}
+                <br />
+                {this.renderGitHubLink()}
             </div>
         );
     }
@@ -67,6 +70,14 @@ export default class SudokuBoardView extends Component {
             <button className={'button'} onClick={this.props.reset}>
                 <span>Reset</span>
             </button>
+        );
+    }
+
+    renderGitHubLink() {
+        return (
+            <a className={'github-link'} href="https://github.com/JPStrydom/Sudoku-AI.git">
+                Project GitHub Repository
+            </a>
         );
     }
 
