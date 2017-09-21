@@ -1,4 +1,4 @@
-import {solve, hasUniqueSolution} from '../sudoku-AI';
+import { solve, hasUniqueSolution } from '../sudoku-AI';
 
 function getInvalidBoard() {
     return [

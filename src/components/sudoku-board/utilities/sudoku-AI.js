@@ -38,8 +38,7 @@ export function hasUniqueSolution(board) {
             if (hasUniqueSolutionHelper(0, 0, board, 0)) {
                 return validateBoard(board);
             }
-        }
-        catch (error) {
+        } catch (error) {
             return false;
         }
     }
