@@ -21,6 +21,7 @@
     "jest": "^21.1.0",
     "mocha": "^3.5.3",
     "prettier": "^1.7.0",
+    "seedrandom": "^2.4.3",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0"
   },

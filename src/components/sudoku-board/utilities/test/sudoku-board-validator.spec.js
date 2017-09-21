@@ -203,7 +203,7 @@ describe('Sudoku Board Validator', () => {
                     [0, 0, 0, 0, 1, 0, 0, 0, 1],
                     [0, 0, 0, 0, 0, 0, 0, 0, 0]
                 ];
-                expect(validateCell(3, 2, board)).toEqual(false);
+                expect(validateBoard(board)).toEqual(false);
             });
 
             it('should fail an invalid board with columns where duplicate values are present', () => {
