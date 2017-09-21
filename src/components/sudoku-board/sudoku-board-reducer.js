@@ -1,6 +1,6 @@
 import buildActionName from '../../redux/build-action-name';
 import { validateCell, validateErrorCells } from './utilities/sudoku-board-validator';
-import solve from './utilities/sudoku-AI';
+import { solve } from './utilities/sudoku-AI';
 
 const reducerName = 'sudokuBoardReducer';
 
