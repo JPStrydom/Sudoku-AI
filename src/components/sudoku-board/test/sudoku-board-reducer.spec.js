@@ -203,7 +203,7 @@ describe('Sudoku Board Reducer', () => {
         });
     });
 
-    describe('Reset Action', () => {
+    describe('Reset Board Action', () => {
         it('should reset the board for a valid reset board action', () => {
             const action = resetBoard();
 
@@ -237,5 +237,9 @@ describe('Sudoku Board Reducer', () => {
             expect(dispatch).toHaveBeenCalledWith(updateBoardAction);
             expect(dispatch).toHaveBeenCalledWith(updateSolvedCellsAction);
         });
+    });
+
+    describe('Generate Board Action', () => {
+        // TODO: Add generate board action test
     });
 });

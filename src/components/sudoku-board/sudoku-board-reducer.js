@@ -1,5 +1,5 @@
 import buildActionName from '../../redux/build-action-name';
-import { validateCell, validateErrorCells } from './utilities/sudoku-board-validator';
+import { validateCell, isEmpty } from './utilities/sudoku-board-validator';
 import { solve } from './utilities/sudoku-AI';
 import generateSudokuBoard from './utilities/sudoku-board-generator';
 
@@ -45,6 +45,7 @@ export function getInitialState() {
             [false, false, false, false, false, false, false, false, false],
             [false, false, false, false, false, false, false, false, false]
         ],
+        isEmpty: true,
         isValid: true,
         isSolved: false
     };
@@ -56,14 +57,14 @@ export function updateCell(y, x, value) {
         board[y][x] = parseInt(value);
         if (validateCell(y, x, board)) {
             errorCells[y][x] = false;
-            dispatch(updateBoardAction({ board }));
-            dispatch(updateErrorCellsAction({ errorCells, isValid: validateErrorCells(errorCells) }));
+            dispatch(updateBoardAction({ board, isEmpty: isEmpty(board)  }));
+            dispatch(updateErrorCellsAction({ errorCells, isValid: isEmpty(errorCells) }));
         } else {
             errorCells[y][x] = true;
             if (!board[y][x] || board[y][x] < 1 || board[y][x] > 9) {
                 board[y][x] = 0;
             }
-            dispatch(updateBoardAction({ board }));
+            dispatch(updateBoardAction({ board, isEmpty: isEmpty(board)  }));
             dispatch(updateErrorCellsAction({ errorCells, isValid: false }));
         }
     };
@@ -80,7 +81,7 @@ export function clearBoardErrors() {
                 return cell;
             })
         );
-        dispatch(updateErrorCellsAction({ errorCells, isValid: validateErrorCells(errorCells) }));
+        dispatch(updateErrorCellsAction({ errorCells, isValid: isEmpty(errorCells) }));
     };
 }
 
@@ -89,7 +90,7 @@ export function solveBoard() {
         let { board } = getState().sudokuBoard;
         const solvedCells = board.map(row => row.map(cell => cell === 0));
         if (solve(board)) {
-            dispatch(updateBoardAction({ board }));
+            dispatch(updateBoardAction({ board, isEmpty: isEmpty(board) }));
             dispatch(updateSolvedCellsAction({ solvedCells, isSolved: true }));
         } else {
             dispatch(
@@ -113,7 +114,7 @@ export function resetSolution() {
                 return cell;
             })
         );
-        dispatch(updateBoardAction({ board }));
+        dispatch(updateBoardAction({ board, isEmpty: isEmpty(board) }));
         dispatch(updateSolvedCellsAction({ solvedCells: getInitialState().solvedCells, isSolved: false }));
     };
 }
@@ -124,11 +125,11 @@ export function resetBoard() {
 
 export function generateBoard() {
     return dispatch => {
+        const board = generateSudokuBoard();
         dispatch(resetAction());
-        dispatch(updateBoardAction({board: generateSudokuBoard()}))
+        dispatch(updateBoardAction({ board, isEmpty: isEmpty(board) }));
     };
 }
-
 
 function updateBoardAction(payload) {
     return {
@@ -162,7 +163,8 @@ export default function SudokuBoardReducer(state = getInitialState(), action) {
         case UPDATE_BOARD:
             return {
                 ...state,
-                board: action.payload.board
+                board: action.payload.board,
+                isEmpty: action.payload.isEmpty
             };
         case UPDATE_ERROR_CELLS:
             return {

@@ -18,7 +18,6 @@ seedRandom('test', { global: true });
 
 describe('Sudoku Board Generator', () => {
     it('should generate a valid sudoku board with a unique solution', () => {
-        const board = generateSudokuBoard();
-        console.log(board);
+        // TODO: Add generator tests
     });
 });

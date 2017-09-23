@@ -1,7 +1,14 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { updateCell, clearBoardErrors, solveBoard, resetBoard, resetSolution, generateBoard } from './sudoku-board-reducer';
+import {
+    updateCell,
+    clearBoardErrors,
+    solveBoard,
+    resetBoard,
+    resetSolution,
+    generateBoard
+} from './sudoku-board-reducer';
 import SudokuBoardView from './sudoku-board-view';
 
 function mapStateToProps({ sudokuBoard }) {

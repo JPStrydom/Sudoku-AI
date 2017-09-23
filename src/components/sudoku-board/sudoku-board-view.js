@@ -69,7 +69,7 @@ export default class SudokuBoardView extends Component {
 
     renderResetButton() {
         return (
-            <button className={'button'} onClick={this.props.resetBoard}>
+            <button className={'button'} onClick={this.props.resetBoard} disabled={this.props.sudokuBoard.isEmpty}>
                 <span>Reset</span>
             </button>
         );
@@ -77,7 +77,7 @@ export default class SudokuBoardView extends Component {
 
     renderGenerateButton() {
         return (
-            <button className={'button'} onClick={this.props.generateBoard}>
+            <button className={'button'} onClick={this.props.generateBoard} disabled={!this.props.sudokuBoard.isEmpty}>
                 <span>Generate</span>
             </button>
         );

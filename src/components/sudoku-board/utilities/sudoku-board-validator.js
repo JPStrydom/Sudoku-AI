@@ -1,7 +1,3 @@
-export function validateErrorCells(errorCells) {
-    return !errorCells.filter(row => row.filter(cell => cell).length >= 1).length >= 1;
-}
-
 export function validateBoard(board) {
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
@@ -20,6 +16,10 @@ export function validateCell(row, col, board) {
         validateCellInColumn(row, col, board) &&
         validateCellInSector(row, col, board)
     );
+}
+
+export function isEmpty(errorCells) {
+    return !errorCells.filter(row => row.filter(cell => cell).length >= 1).length >= 1;
 }
 
 function validateCellValue(row, col, board) {
