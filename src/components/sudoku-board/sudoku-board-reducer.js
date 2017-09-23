@@ -57,14 +57,14 @@ export function updateCell(y, x, value) {
         board[y][x] = parseInt(value);
         if (validateCell(y, x, board)) {
             errorCells[y][x] = false;
-            dispatch(updateBoardAction({ board, isEmpty: isEmpty(board)  }));
+            dispatch(updateBoardAction({ board, isEmpty: isEmpty(board) }));
             dispatch(updateErrorCellsAction({ errorCells, isValid: isEmpty(errorCells) }));
         } else {
             errorCells[y][x] = true;
             if (!board[y][x] || board[y][x] < 1 || board[y][x] > 9) {
                 board[y][x] = 0;
             }
-            dispatch(updateBoardAction({ board, isEmpty: isEmpty(board)  }));
+            dispatch(updateBoardAction({ board, isEmpty: isEmpty(board) }));
             dispatch(updateErrorCellsAction({ errorCells, isValid: false }));
         }
     };
