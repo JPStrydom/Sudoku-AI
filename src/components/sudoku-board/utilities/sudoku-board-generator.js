@@ -1,20 +1,11 @@
 import { validateCell } from '../utilities/sudoku-board-validator';
-import { hasUniqueSolution } from '../utilities/sudoku-AI';
+import { solve, hasUniqueSolution } from '../utilities/sudoku-AI';
 
 function getRandomIntBetween(min, max) {
     return Math.floor(Math.random() * (max + 1 - min) + min);
 }
 
-function findEmptyCell(board) {
-    let row, col;
-    do {
-        row = getRandomIntBetween(0, 8);
-        col = getRandomIntBetween(0, 8);
-    } while (board[row][col] !== 0);
-    return { row, col };
-}
-
-export default function generateSudokuBoard() {
+function generateRandomXBoard() {
     let board = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -26,27 +17,40 @@ export default function generateSudokuBoard() {
         [0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0]
     ];
-    let cell;
-    let row, col;
 
-    const initialPopulatedCellsCount = getRandomIntBetween(16, 32);
-    console.log('Initial Populated Cells Count: ', initialPopulatedCellsCount);
-    for (let i = 0; i < initialPopulatedCellsCount; i++) {
-        do {
-            cell = findEmptyCell(board);
-            row = cell.row;
-            col = cell.col;
-            board[row][col] = getRandomIntBetween(1, 9);
-        } while (!validateCell(row, col, board));
+    for (let i = 0; i < 9; i++) {
+        board[i][i] = getRandomIntBetween(1, 9);
+        while (!validateCell(i, i, board)) {
+            board[i][i] = getRandomIntBetween(1, 9);
+        }
+        if (i !== 4) {
+            board[i][8 - i] = getRandomIntBetween(1, 9);
+            while (!validateCell(i, 8 - i, board)) {
+                board[i][8 - i] = getRandomIntBetween(1, 9);
+            }
+        }
     }
     return board;
-    /*while (!hasUniqueSolution(board)) {
-        do {
-            cell = findEmptyCell(board);
-            row = cell.row;
-            col = cell.col;
-            board[row][col] = getRandomIntBetween(1, 9);
-        } while (!validateCell(row, col, board));
+}
+
+function findPopulatedCell(board) {
+    let row, col;
+    do {
+        row = getRandomIntBetween(0, 8);
+        col = getRandomIntBetween(0, 8);
+    } while (board[row][col] === 0);
+    return [row, col];
+}
+
+export default function generateSudokuBoard() {
+    let board = generateRandomXBoard();
+    solve(board);
+
+    let row, col;
+    const numberOfCellsToClear = getRandomIntBetween(27, 63);
+    for (let i = 0; i < numberOfCellsToClear; i++) {
+        [row, col] = findPopulatedCell(board);
+        board[row][col] = 0;
     }
-    return board;*/
+    return board;
 }

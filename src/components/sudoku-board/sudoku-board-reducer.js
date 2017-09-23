@@ -1,6 +1,7 @@
 import buildActionName from '../../redux/build-action-name';
 import { validateCell, validateErrorCells } from './utilities/sudoku-board-validator';
 import { solve } from './utilities/sudoku-AI';
+import generateSudokuBoard from './utilities/sudoku-board-generator';
 
 const reducerName = 'sudokuBoardReducer';
 
@@ -86,20 +87,19 @@ export function clearBoardErrors() {
 export function solveBoard() {
     return (dispatch, getState) => {
         let { board } = getState().sudokuBoard;
-        const solvedCells = board.map(row =>
-            row.map(cell => {
-                return cell === 0;
-            })
-        );
+        const solvedCells = board.map(row => row.map(cell => cell === 0));
         if (solve(board)) {
             dispatch(updateBoardAction({ board }));
             dispatch(updateSolvedCellsAction({ solvedCells, isSolved: true }));
+        } else {
+            dispatch(
+                updateErrorCellsAction({
+                    errorCells: solvedCells.map(row => row.map(cell => !cell)),
+                    isValid: false
+                })
+            );
         }
     };
-}
-
-export function reset() {
-    return resetAction();
 }
 
 export function resetSolution() {
@@ -117,6 +117,18 @@ export function resetSolution() {
         dispatch(updateSolvedCellsAction({ solvedCells: getInitialState().solvedCells, isSolved: false }));
     };
 }
+
+export function resetBoard() {
+    return resetAction();
+}
+
+export function generateBoard() {
+    return dispatch => {
+        dispatch(resetAction());
+        dispatch(updateBoardAction({board: generateSudokuBoard()}))
+    };
+}
+
 
 function updateBoardAction(payload) {
     return {

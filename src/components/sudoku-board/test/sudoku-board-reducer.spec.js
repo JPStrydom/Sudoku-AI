@@ -3,7 +3,7 @@ import SudokuBoardReducer, {
     updateCell,
     clearBoardErrors,
     solveBoard,
-    reset,
+    resetBoard,
     resetSolution,
     UPDATE_BOARD,
     UPDATE_ERROR_CELLS,
@@ -205,7 +205,7 @@ describe('Sudoku Board Reducer', () => {
 
     describe('Reset Action', () => {
         it('should reset the board for a valid reset board action', () => {
-            const action = reset();
+            const action = resetBoard();
 
             const actual = SudokuBoardReducer(
                 {
