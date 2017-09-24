@@ -3,7 +3,7 @@ import SudokuBoardReducer, {
     updateCell,
     clearBoardErrors,
     solveBoard,
-    reset,
+    resetBoard,
     resetSolution,
     UPDATE_BOARD,
     UPDATE_ERROR_CELLS,
@@ -203,9 +203,9 @@ describe('Sudoku Board Reducer', () => {
         });
     });
 
-    describe('Reset Action', () => {
+    describe('Reset Board Action', () => {
         it('should reset the board for a valid reset board action', () => {
-            const action = reset();
+            const action = resetBoard();
 
             const actual = SudokuBoardReducer(
                 {
@@ -237,5 +237,9 @@ describe('Sudoku Board Reducer', () => {
             expect(dispatch).toHaveBeenCalledWith(updateBoardAction);
             expect(dispatch).toHaveBeenCalledWith(updateSolvedCellsAction);
         });
+    });
+
+    describe('Generate Board Action', () => {
+        // TODO: Add generate board action test
     });
 });

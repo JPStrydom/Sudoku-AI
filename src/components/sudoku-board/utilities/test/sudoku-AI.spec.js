@@ -1,5 +1,18 @@
-import solve from '../sudoku-AI';
+import { solve, hasUniqueSolution } from '../sudoku-AI';
 
+function getInvalidBoard() {
+    return [
+        [1, 0, 0, 4, 8, 9, 0, 0, 6],
+        [7, 3, 0, 0, 0, 0, 0, 4, 0],
+        [0, 0, 0, 0, 0, 1, 2, 9, 5],
+        [0, 0, 7, 1, 2, 0, 6, 0, 0],
+        [5, 0, 0, 7, 0, 3, 0, 0, 8],
+        [0, 0, 6, 0, 9, 5, 7, 0, 0],
+        [9, 1, 4, 6, 0, 0, 0, 0, 0],
+        [0, 2, 0, 0, 0, 0, 3, 3, 7],
+        [8, 0, 0, 5, 1, 2, 0, 0, 4]
+    ];
+}
 function getEasyBoard() {
     return [
         [1, 0, 0, 4, 8, 9, 0, 0, 6],
@@ -84,25 +97,81 @@ function getSolvedDifficultBoard() {
     ];
 }
 
+function getUniqueSolutionBoard() {
+    return [
+        [1, 2, 6, 4, 3, 7, 9, 5, 0],
+        [8, 9, 5, 6, 2, 1, 4, 7, 0],
+        [3, 7, 4, 9, 8, 5, 1, 2, 0],
+        [4, 5, 7, 1, 9, 3, 8, 6, 0],
+        [9, 8, 3, 2, 4, 6, 5, 1, 0],
+        [6, 1, 2, 5, 7, 8, 3, 9, 0],
+        [2, 6, 9, 3, 1, 4, 7, 8, 0],
+        [5, 4, 8, 7, 6, 9, 2, 3, 0],
+        [7, 3, 1, 8, 5, 2, 6, 4, 0]
+    ];
+}
+
+function getMultipleSolutionBoard() {
+    return [
+        [1, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+}
+
 describe('Sudoku AI', () => {
-    it('should solve a valid easy unfinished board', () => {
-        let board = getEasyBoard();
-        const solved = solve(board);
-        expect(board).toEqual(getSolvedEasyBoard());
-        expect(solved).toEqual(true);
+    describe('Solve', () => {
+        it('should fail an invalid board', () => {
+            let board = getInvalidBoard();
+            const solved = solve(board);
+            expect(solved).toEqual(false);
+        });
+
+        it('should solve a valid easy unfinished board', () => {
+            let board = getEasyBoard();
+            const solved = solve(board);
+            expect(board).toEqual(getSolvedEasyBoard());
+            expect(solved).toEqual(true);
+        });
+
+        it('should solve a valid intermediate unfinished board', () => {
+            let board = getIntermediateBoard();
+            const solved = solve(board);
+            expect(board).toEqual(getSolvedIntermediateBoard());
+            expect(solved).toEqual(true);
+        });
+
+        it('should solve a valid difficult unfinished board', () => {
+            let board = getDifficultBoard();
+            const solved = solve(board);
+            expect(board).toEqual(getSolvedDifficultBoard());
+            expect(solved).toEqual(true);
+        });
     });
 
-    it('should solve a valid intermediate unfinished board', () => {
-        let board = getIntermediateBoard();
-        const solved = solve(board);
-        expect(board).toEqual(getSolvedIntermediateBoard());
-        expect(solved).toEqual(true);
-    });
+    describe('Has Unique Solution', () => {
+        it('should fail an invalid board', () => {
+            let board = getInvalidBoard();
+            const isUnique = hasUniqueSolution(board);
+            expect(isUnique).toEqual(false);
+        });
 
-    it('should solve a valid difficult unfinished board', () => {
-        let board = getDifficultBoard();
-        const solved = solve(board);
-        expect(board).toEqual(getSolvedDifficultBoard());
-        expect(solved).toEqual(true);
+        it('should pass a board with only one solution', () => {
+            let board = getUniqueSolutionBoard();
+            const isUnique = hasUniqueSolution(board);
+            expect(isUnique).toEqual(true);
+        });
+
+        it('should fail a board with multiple solutions', () => {
+            let board = getMultipleSolutionBoard();
+            const isUnique = hasUniqueSolution(board);
+            expect(isUnique).toEqual(false);
+        });
     });
 });

@@ -1,4 +1,4 @@
-import { validateBoard, validateCell } from '../sudoku-board-validator';
+import { validateBoard, validateCell, isEmpty } from '../sudoku-board-validator';
 
 describe('Sudoku Board Validator', () => {
     describe('Cell Validation', () => {
@@ -203,7 +203,7 @@ describe('Sudoku Board Validator', () => {
                     [0, 0, 0, 0, 1, 0, 0, 0, 1],
                     [0, 0, 0, 0, 0, 0, 0, 0, 0]
                 ];
-                expect(validateCell(3, 2, board)).toEqual(false);
+                expect(validateBoard(board)).toEqual(false);
             });
 
             it('should fail an invalid board with columns where duplicate values are present', () => {
@@ -249,6 +249,72 @@ describe('Sudoku Board Validator', () => {
                     [0, 0, 0, 0, 0, 0, 0, 0, 0]
                 ];
                 expect(validateBoard(board)).toEqual(false);
+            });
+        });
+    });
+
+    describe('Is Empty', () => {
+        describe('Happy Case', () => {
+            it('should pass an empty board', () => {
+                const board = [
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0]
+                ];
+                expect(isEmpty(board)).toEqual(true);
+            });
+
+            it('should pass an empty error cells array', () => {
+                const errorCells = [
+                    [false, false, false, false, false, false, false, false, false],
+                    [false, false, false, false, false, false, false, false, false],
+                    [false, false, false, false, false, false, false, false, false],
+                    [false, false, false, false, false, false, false, false, false],
+                    [false, false, false, false, false, false, false, false, false],
+                    [false, false, false, false, false, false, false, false, false],
+                    [false, false, false, false, false, false, false, false, false],
+                    [false, false, false, false, false, false, false, false, false],
+                    [false, false, false, false, false, false, false, false, false]
+                ];
+                expect(isEmpty(errorCells)).toEqual(true);
+            });
+        });
+
+        describe('Sad Case', () => {
+            it('should fail a populated board', () => {
+                const board = [
+                    [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0]
+                ];
+                expect(isEmpty(board)).toEqual(false);
+            });
+
+            it('should fail a populated error cells array', () => {
+                const errorCells = [
+                    [true, false, false, false, false, false, false, false, false],
+                    [true, false, false, false, false, false, false, false, false],
+                    [true, false, false, false, false, false, false, false, false],
+                    [true, false, false, false, false, false, false, false, false],
+                    [true, false, false, false, false, false, false, false, false],
+                    [true, false, false, false, false, false, false, false, false],
+                    [true, false, false, false, false, false, false, false, false],
+                    [true, false, false, false, false, false, false, false, false],
+                    [true, false, false, false, false, false, false, false, false]
+                ];
+                expect(isEmpty(errorCells)).toEqual(false);
             });
         });
     });
