@@ -6,8 +6,7 @@ export default class SudokuBoardView extends Component {
 
         this.renderSudokuBoard = this.renderSudokuBoard.bind(this);
         this.renderSolveClearButton = this.renderSolveClearButton.bind(this);
-        this.renderResetButton = this.renderResetButton.bind(this);
-        this.renderGenerateButton = this.renderGenerateButton.bind(this);
+        this.renderGenerateResetButton = this.renderGenerateResetButton.bind(this);
         this.renderGitHubLink = this.renderGitHubLink.bind(this);
         this.getCellValue = this.getCellValue.bind(this);
         this.handleCellInput = this.handleCellInput.bind(this);
@@ -20,8 +19,7 @@ export default class SudokuBoardView extends Component {
                 <h1 className={'heading'}>Sudoku AI</h1>
                 {this.renderSudokuBoard()}
                 {this.renderSolveClearButton()}
-                {this.renderResetButton()}
-                {this.renderGenerateButton()}
+                {this.renderGenerateResetButton()}
                 <br />
                 {this.renderGitHubLink()}
             </div>
@@ -61,24 +59,20 @@ export default class SudokuBoardView extends Component {
                 <span>Clear</span>
             </button>
         ) : (
-            <button className={'button'} onClick={this.props.solveBoard} disabled={!this.props.sudokuBoard.isValid}>
+            <button title="Hello World!" className={'button'} onClick={this.props.solveBoard} disabled={!this.props.sudokuBoard.isValid}>
                 <span>Solve</span>
             </button>
         );
     }
 
-    renderResetButton() {
-        return (
-            <button className={'button'} onClick={this.props.resetBoard} disabled={this.props.sudokuBoard.isEmpty}>
-                <span>Reset</span>
-            </button>
-        );
-    }
-
-    renderGenerateButton() {
-        return (
-            <button className={'button'} onClick={this.props.generateBoard} disabled={!this.props.sudokuBoard.isEmpty}>
+    renderGenerateResetButton() {
+        return this.props.sudokuBoard.isEmpty ? (
+            <button className={'button'} onClick={this.props.generateBoard}>
                 <span>Generate</span>
+            </button>
+        ) : (
+            <button className={'button'} onClick={this.props.resetBoard}>
+                <span>Reset</span>
             </button>
         );
     }
