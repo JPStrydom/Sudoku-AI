@@ -38,7 +38,7 @@ button:disabled {
 }
 
 span {
-    font-size: 24px
+    font-size: 24px;
 }
 
 .heading {
@@ -82,7 +82,6 @@ span {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
     font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
     margin-top: 20px;
     margin-right: 20px;
@@ -107,11 +106,6 @@ span {
 }
 
 .github-link:visited {
-    text-decoration: none;
-    color: #0275d8;
-}
-
-.github-link:active {
     text-decoration: none;
     color: #0275d8;
 }
