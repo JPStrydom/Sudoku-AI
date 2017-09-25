@@ -15,12 +15,13 @@ export default class SudokuBoardView extends Component {
 
     render() {
         return (
-            <div>
+            <div className={'sudoku-board'}>
                 <h1 className={'heading'}>Sudoku AI</h1>
                 {this.renderSudokuBoard()}
-                {this.renderSolveClearButton()}
-                {this.renderGenerateResetButton()}
-                <br />
+                <div className={'buttons-container'}>
+                    {this.renderSolveClearButton()}
+                    {this.renderGenerateResetButton()}
+                </div>
                 {this.renderGitHubLink()}
             </div>
         );
@@ -33,9 +34,9 @@ export default class SudokuBoardView extends Component {
             <table id="grid">
                 <tbody>
                     {board.map((row, rowIndex) => (
-                        <tr key={`row-${cellCount}`}>
+                        <tr key={`row-${Math.floor(cellCount/9)}`}>
                             {row.map((cell, colIndex) => (
-                                <td key={`data-${cellCount}`}>
+                                <td key={`column-${cellCount%9}`}>
                                     <input
                                         id={`cell-${cellCount++}`}
                                         type="text"
@@ -79,9 +80,11 @@ export default class SudokuBoardView extends Component {
 
     renderGitHubLink() {
         return (
-            <a className={'github-link'} href="https://github.com/JPStrydom/Sudoku-AI.git">
-                Project GitHub Repository
-            </a>
+            <div className={'github-link-container'}>
+                <a className={'github-link'} href="https://github.com/JPStrydom/Sudoku-AI.git">
+                    Project GitHub Repository
+                </a>
+            </div>
         );
     }
 
