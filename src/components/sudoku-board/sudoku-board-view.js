@@ -14,9 +14,10 @@ export default class SudokuBoardView extends Component {
     }
 
     render() {
+        document.title = 'Sudoku AI';
         return (
             <div className={'sudoku-board'}>
-                <h1 className={'heading'}>Sudoku AI</h1>
+                <h1 className={'heading'}>{document.title}</h1>
                 {this.renderSudokuBoard()}
                 <div className={'buttons-container'}>
                     {this.renderSolveClearButton()}
