@@ -5,10 +5,14 @@ import SudokuBoardReducer, {
     solveBoard,
     resetBoard,
     resetSolution,
+    generateBoard,
     UPDATE_BOARD,
     UPDATE_ERROR_CELLS,
     UPDATE_SOLVED_CELLS
 } from '../sudoku-board-reducer';
+import seedRandom from 'seedrandom';
+
+seedRandom('test', { global: true });
 
 function getState() {
     return {
@@ -114,6 +118,20 @@ function getSolvedSolvedCells() {
     ];
 }
 
+function getGeneratedBoard() {
+    return [
+        [8, 0, 0, 0, 5, 0, 0, 0, 0],
+        [0, 0, 6, 0, 0, 4, 1, 0, 8],
+        [3, 0, 0, 8, 0, 0, 0, 2, 0],
+        [2, 0, 5, 0, 0, 0, 0, 6, 0],
+        [0, 0, 0, 6, 0, 2, 0, 5, 0],
+        [4, 6, 7, 9, 0, 0, 0, 0, 0],
+        [0, 5, 0, 0, 0, 8, 9, 7, 3],
+        [9, 0, 3, 7, 6, 0, 2, 0, 5],
+        [0, 0, 8, 0, 0, 0, 0, 4, 0]
+    ];
+}
+
 const dispatch = jest.fn();
 
 describe('Sudoku Board Reducer', () => {
@@ -151,7 +169,7 @@ describe('Sudoku Board Reducer', () => {
         it('should call the UPDATE_BOARD and UPDATE_ERROR_CELLS actions when updating a valid cell', () => {
             updateCell(4, 4, 1)(dispatch, getState);
 
-            const updateBoardAction = { type: UPDATE_BOARD, payload: { board: getOneCellBoard() } };
+            const updateBoardAction = { type: UPDATE_BOARD, payload: { board: getOneCellBoard(), isEmpty: false } };
             const updateErrorCellsAction = {
                 type: UPDATE_ERROR_CELLS,
                 payload: { errorCells: getValidErrorCells(), isValid: true }
@@ -164,7 +182,7 @@ describe('Sudoku Board Reducer', () => {
         it('should call the UPDATE_BOARD and UPDATE_ERROR_CELLS actions when updating an invalid cell', () => {
             updateCell(4, 4, -1)(dispatch, getState);
 
-            const updateBoardAction = { type: UPDATE_BOARD, payload: { board: getEmptyBoard() } };
+            const updateBoardAction = { type: UPDATE_BOARD, payload: { board: getEmptyBoard(), isEmpty: true } };
             const updateErrorCellsAction = {
                 type: UPDATE_ERROR_CELLS,
                 payload: { errorCells: getInvalidErrorCells(), isValid: false }
@@ -192,7 +210,7 @@ describe('Sudoku Board Reducer', () => {
         it('should call the UPDATE_BOARD and UPDATE_SOLVED_CELLS actions when solving a valid board', () => {
             solveBoard()(dispatch, getState);
 
-            const updateBoardAction = { type: UPDATE_BOARD, payload: { board: getSolvedBoard() } };
+            const updateBoardAction = { type: UPDATE_BOARD, payload: { board: getSolvedBoard(), isEmpty: false } };
             const updateSolvedCellsAction = {
                 type: UPDATE_SOLVED_CELLS,
                 payload: { solvedCells: getSolvedSolvedCells(), isSolved: true }
@@ -228,7 +246,7 @@ describe('Sudoku Board Reducer', () => {
         it('should call the UPDATE_BOARD and UPDATE_SOLVED_CELLS actions when resetting a solution', () => {
             resetSolution()(dispatch, getState);
 
-            const updateBoardAction = { type: UPDATE_BOARD, payload: { board: getEmptyBoard() } };
+            const updateBoardAction = { type: UPDATE_BOARD, payload: { board: getEmptyBoard(), isEmpty: true } };
             const updateSolvedCellsAction = {
                 type: UPDATE_SOLVED_CELLS,
                 payload: { solvedCells: getUnsolvedSolvedCells(), isSolved: false }
@@ -240,6 +258,14 @@ describe('Sudoku Board Reducer', () => {
     });
 
     describe('Generate Board Action', () => {
-        // TODO: Add generate board action test
+        it('should call the RESET and UPDATE_BOARD actions when generating a new board', () => {
+            generateBoard()(dispatch, getState);
+
+            const resetAction = resetBoard();
+            const updateBoardAction = { type: UPDATE_BOARD, payload: { board: getGeneratedBoard(), isEmpty: false } };
+
+            expect(dispatch).toHaveBeenCalledWith(resetAction);
+            expect(dispatch).toHaveBeenCalledWith(updateBoardAction);
+        });
     });
 });
