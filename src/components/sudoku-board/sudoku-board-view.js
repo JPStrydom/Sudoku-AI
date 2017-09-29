@@ -34,9 +34,9 @@ export default class SudokuBoardView extends Component {
             <table id="grid">
                 <tbody>
                     {board.map((row, rowIndex) => (
-                        <tr key={`row-${Math.floor(cellCount/9)}`}>
+                        <tr key={`row-${Math.floor(cellCount / 9)}`}>
                             {row.map((cell, colIndex) => (
-                                <td key={`column-${cellCount%9}`}>
+                                <td key={`column-${cellCount % 9}`}>
                                     <input
                                         id={`cell-${cellCount++}`}
                                         type="text"
@@ -60,7 +60,12 @@ export default class SudokuBoardView extends Component {
                 <span>Clear</span>
             </button>
         ) : (
-            <button title="Hello World!" className={'button'} onClick={this.props.solveBoard} disabled={!this.props.sudokuBoard.isValid}>
+            <button
+                title="Hello World!"
+                className={'button'}
+                onClick={this.props.solveBoard}
+                disabled={!this.props.sudokuBoard.isValid}
+            >
                 <span>Solve</span>
             </button>
         );
