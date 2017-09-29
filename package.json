@@ -5,7 +5,9 @@
   "main": "index.js",
   "repository": "git@github.com:JPStrydom/Sudoku-AI.git",
   "scripts": {
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "postinstall": "webpack -p",
+    "start": "node server.js",
     "test": "jest",
     "prettier": "node_modules/.bin/prettier --write --tab-width=4 --single-quote=true --print-width=120 \"src/**/*.js\""
   },
