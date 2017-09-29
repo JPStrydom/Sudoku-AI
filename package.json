@@ -24,7 +24,6 @@
     "mocha": "^3.5.3",
     "prettier": "^1.7.0",
     "seedrandom": "^2.4.3",
-    "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
@@ -34,6 +33,7 @@
     "react-dom": "^0.14.3",
     "react-redux": "^4.0.0",
     "redux": "^3.0.4",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "webpack": "^1.12.9"
   }
 }
