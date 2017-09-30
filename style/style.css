@@ -52,7 +52,7 @@ span {
     margin-top: 20px;
     margin-bottom: 20px;
     text-align: center;
-    font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+    font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
 }
 
 .valid-cell {
@@ -60,7 +60,7 @@ span {
     background-color: #4CAF50;
     transition: background-color 0.25s linear;
     font-weight: bold;
-    font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+    font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
 }
 
 .invalid-cell {
@@ -68,7 +68,7 @@ span {
     background-color: #AF4E4C;
     transition: background-color 0.25s linear;
     font-weight: bold;
-    font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+    font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
 }
 
 .solved-cell {
@@ -76,7 +76,7 @@ span {
     background-color: rgba(75, 175, 80, 0.5);
     transition: background-color 0.25s linear;
     font-weight: normal;
-    font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+    font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
 }
 
 .buttons-container {
@@ -92,7 +92,7 @@ span {
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
-    font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+    font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
     margin-left: 50px;
     cursor: pointer;
     transition-duration: 0.25s;
@@ -106,7 +106,7 @@ span {
 .github-link {
     display: inline-block;
     font-size: 18px;
-    font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+    font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
     transition-duration: 0.25s;
 }
 
