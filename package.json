@@ -11,7 +11,9 @@
     "test": "jest",
     "prettier": "node_modules/.bin/prettier --write --tab-width=4 --single-quote=true --print-width=120 \"src/**/*.js\""
   },
-  "pre-commit": ["prettier"],
+  "pre-commit": [
+    "prettier"
+  ],
   "author": "JP Strydom",
   "devDependencies": {
     "chai": "^4.1.2",

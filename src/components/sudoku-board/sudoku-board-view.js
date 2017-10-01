@@ -40,7 +40,7 @@ export default class SudokuBoardView extends Component {
                                 <td key={`column-${cellCount % 9}`}>
                                     <input
                                         id={`cell-${cellCount++}`}
-                                        type="text"
+                                        type="number"
                                         value={this.getCellValue(rowIndex, colIndex)}
                                         onChange={event => this.handleCellInput(event, rowIndex, colIndex)}
                                         className={this.getCellStyling(rowIndex, colIndex)}
