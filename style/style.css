@@ -123,6 +123,12 @@ span {
     color: #0275d8;
 }
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 #cell-0,  #cell-1,  #cell-2  { border-top:    2px solid black; }
 #cell-2,  #cell-11, #cell-20 { border-right:  2px solid black; }
 #cell-18, #cell-19, #cell-20 { border-bottom: 2px solid black; }
