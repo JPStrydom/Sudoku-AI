@@ -40,7 +40,7 @@ export default class SudokuBoardView extends Component {
                                 <td key={`column-${cellCount % 9}`}>
                                     <input
                                         id={`cell-${cellCount++}`}
-                                        type="number"
+                                        type="tel"
                                         value={this.getCellValue(rowIndex, colIndex)}
                                         onChange={event => this.handleCellInput(event, rowIndex, colIndex)}
                                         className={this.getCellStyling(rowIndex, colIndex)}
@@ -97,7 +97,7 @@ export default class SudokuBoardView extends Component {
     getCellValue(row, col) {
         const board = this.props.sudokuBoard.board;
         const value = board[row][col];
-        return value >= 1 && value <= 9 ? value : '';
+        return value === 0 ? '' : value;
     }
 
     getCellStyling(row, col) {
@@ -120,6 +120,6 @@ export default class SudokuBoardView extends Component {
         if (!value) {
             return this.props.clearBoardErrors();
         }
-        setTimeout(() => this.props.clearBoardErrors(), 500);
+        setTimeout(() => this.props.clearBoardErrors(), 250);
     }
 }

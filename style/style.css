@@ -31,6 +31,7 @@ button:hover {
 }
 
 button:disabled {
+    transition-delay: 0.25s;
     opacity: 0.6;
     cursor: not-allowed;
     box-shadow: none;
@@ -123,8 +124,9 @@ span {
     color: #0275d8;
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+/*TODO: Might not need these with type tell*/
+input[type=tel]::-webkit-inner-spin-button,
+input[type=tel]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
