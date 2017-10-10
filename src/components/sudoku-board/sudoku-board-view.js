@@ -61,11 +61,7 @@ export default class SudokuBoardView extends Component {
                 <span>Clear</span>
             </button>
         ) : (
-            <button
-                className={'button'}
-                onClick={this.props.solveBoard}
-                disabled={!this.props.sudokuBoard.isValid}
-            >
+            <button className={'button'} onClick={this.props.solveBoard} disabled={!this.props.sudokuBoard.isValid}>
                 <span>Solve</span>
             </button>
         );
