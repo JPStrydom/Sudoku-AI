@@ -13,6 +13,21 @@ function getInvalidBoard() {
         [8, 0, 0, 5, 1, 2, 0, 0, 4]
     ];
 }
+
+function getUnsolvableBoard() {
+    return [
+        [1, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 2, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+}
+
 function getEasyBoard() {
     return [
         [1, 0, 0, 4, 8, 9, 0, 0, 6],
@@ -129,6 +144,12 @@ describe('Sudoku AI', () => {
     describe('Solve', () => {
         it('should fail an invalid board', () => {
             let board = getInvalidBoard();
+            const solved = solve(board);
+            expect(solved).toEqual(false);
+        });
+
+        it('should fail an unsolvable board', () => {
+            let board = getUnsolvableBoard();
             const solved = solve(board);
             expect(solved).toEqual(false);
         });
