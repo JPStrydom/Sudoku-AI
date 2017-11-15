@@ -1,15 +1,27 @@
 import { validateCell, validateBoard } from './sudoku-board-validator';
 
+let nodesProcessed = 0;
+const nodeProcessLimit = 500000;
+
 export function solve(board) {
     if (validateBoard(board)) {
-        if (solveHelper(0, 0, board)) {
-            return validateBoard(board);
+        try {
+            nodesProcessed = 0;
+            if (solveHelper(0, 0, board)) {
+                return validateBoard(board);
+            }
+        } catch (error) {
+            return false;
         }
     }
     return false;
 }
 
 function solveHelper(row, col, board) {
+    nodesProcessed++;
+    if (nodesProcessed >= nodeProcessLimit) {
+        throw new Error(`Solution not found after processing ${nodesProcessed} nodes`);
+    }
     if (col >= 9) {
         col = 0;
         row++;

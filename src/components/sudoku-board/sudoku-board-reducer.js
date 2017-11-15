@@ -2,6 +2,7 @@ import buildActionName from '../../redux/build-action-name';
 import { validateCell, isEmpty } from './utilities/sudoku-board-validator';
 import { solve } from './utilities/sudoku-AI';
 import generateSudokuBoard from './utilities/sudoku-board-generator';
+import _ from 'lodash';
 
 const reducerName = 'sudokuBoardReducer';
 
@@ -87,7 +88,7 @@ export function clearBoardErrors() {
 
 export function solveBoard() {
     return (dispatch, getState) => {
-        let { board } = getState().sudokuBoard;
+        let board = _.cloneDeep(getState().sudokuBoard.board);
         const solvedCells = board.map(row => row.map(cell => cell === 0));
         if (solve(board)) {
             dispatch(updateBoardAction({ board, isEmpty: isEmpty(board) }));
