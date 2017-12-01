@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+
 module.exports = {
     entry: ['./src/index.js'],
     output: {
@@ -9,14 +11,19 @@ module.exports = {
         loaders: [
             {
                 exclude: /node_modules/,
-                loader: 'babel'
+                loader: 'babel-loader'
             }
         ]
     },
     resolve: {
-        extensions: ['', '.js', '.jsx']
+        extensions: ['*', '.css', '.js', '.json', '.jsx']
     },
     devServer: {
         contentBase: './'
-    }
+    },
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+        }),
+    ]
 };
