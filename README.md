@@ -1,4 +1,7 @@
-# [Sudoku-AI](https://sudoku-smasher.herokuapp.com/)
+[Sudoku-AI](https://sudoku-smasher.herokuapp.com/)
+==================================================
+
+[![Build Status](https://travis-ci.org/JPStrydom/Sudoku-AI.svg?branch=master)](https://travis-ci.org/JPStrydom/Sudoku-AI)
 
 ## Introduction
 
