@@ -172,7 +172,7 @@ describe('Sudoku Board Reducer', () => {
 
         describe('updateBoardAction', () => {
             it('should update the board when firing off updateBoardAction', () => {
-                const action = updateBoardAction({board: 'some board', isEmpty: false});
+                const action = updateBoardAction({ board: 'some board', isEmpty: false });
 
                 const actual = SudokuBoardReducer(undefined, action);
 
@@ -188,13 +188,14 @@ describe('Sudoku Board Reducer', () => {
 
         describe('updateErrorCellsAction', () => {
             it('should update the error cells when firing off updateErrorCellsAction', () => {
-                const action = updateErrorCellsAction({errorCells: 'some error cells', isValid: false});
+                const action = updateErrorCellsAction({ errorCells: 'some error cells', isValid: false });
 
                 const actual = SudokuBoardReducer(undefined, action);
 
                 const expected = {
                     ...getInitialState(),
-                    errorCells: 'some error cells', isValid: false
+                    errorCells: 'some error cells',
+                    isValid: false
                 };
 
                 expect(actual).toEqual(expected);
@@ -203,13 +204,14 @@ describe('Sudoku Board Reducer', () => {
 
         describe('updateSolvedCellsAction', () => {
             it('should update the solved cells when firing off updateSolvedCellsAction', () => {
-                const action = updateSolvedCellsAction({solvedCells: 'some solved cells', isSolved: false});
+                const action = updateSolvedCellsAction({ solvedCells: 'some solved cells', isSolved: false });
 
                 const actual = SudokuBoardReducer(undefined, action);
 
                 const expected = {
                     ...getInitialState(),
-                    solvedCells: 'some solved cells', isSolved: false
+                    solvedCells: 'some solved cells',
+                    isSolved: false
                 };
 
                 expect(actual).toEqual(expected);
