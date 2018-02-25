@@ -58,9 +58,6 @@ export function hasUniqueSolution(board) {
 }
 
 function hasUniqueSolutionHelper(row, col, board, validSolutionCount) {
-    if (validSolutionCount > 1) {
-        throw new Error('More than one valid solution found');
-    }
     if (col >= 9) {
         col = 0;
         row++;
