@@ -6,10 +6,10 @@ import _ from 'lodash';
 
 const reducerName = 'sudokuBoardReducer';
 
-export const UPDATE_BOARD = buildActionName(reducerName, 'UPDATE_BOARD');
-export const UPDATE_ERROR_CELLS = buildActionName(reducerName, 'UPDATE_ERROR_CELLS');
-export const UPDATE_SOLVED_CELLS = buildActionName(reducerName, 'UPDATE_SOLVED_CELLS');
-export const RESET = buildActionName(reducerName, 'RESET');
+const UPDATE_BOARD = buildActionName(reducerName, 'UPDATE_BOARD');
+const UPDATE_ERROR_CELLS = buildActionName(reducerName, 'UPDATE_ERROR_CELLS');
+const UPDATE_SOLVED_CELLS = buildActionName(reducerName, 'UPDATE_SOLVED_CELLS');
+const RESET = buildActionName(reducerName, 'RESET');
 
 export function getInitialState() {
     return {
@@ -132,28 +132,28 @@ export function generateBoard() {
     };
 }
 
-function updateBoardAction(payload) {
+export function updateBoardAction(payload) {
     return {
         type: UPDATE_BOARD,
         payload
     };
 }
 
-function updateErrorCellsAction(payload) {
+export function updateErrorCellsAction(payload) {
     return {
         type: UPDATE_ERROR_CELLS,
         payload
     };
 }
 
-function updateSolvedCellsAction(payload) {
+export function updateSolvedCellsAction(payload) {
     return {
         type: UPDATE_SOLVED_CELLS,
         payload
     };
 }
 
-function resetAction() {
+export function resetAction() {
     return {
         type: RESET
     };

@@ -6,6 +6,10 @@ import SudokuBoardReducer, {
     resetBoard,
     resetSolution,
     generateBoard,
+    updateBoardAction,
+    updateErrorCellsAction,
+    updateSolvedCellsAction,
+    resetAction,
     UPDATE_BOARD,
     UPDATE_ERROR_CELLS,
     UPDATE_SOLVED_CELLS
@@ -139,133 +143,197 @@ describe('Sudoku Board Reducer', () => {
         dispatch.mockReset();
     });
 
-    describe('Invalid Actions', () => {
-        it('should return the initial state for undefined actions', () => {
-            const action = {};
+    describe('Simple Actions', () => {
+        describe('Invalid Actions', () => {
+            it('should return the initial state for undefined actions', () => {
+                const action = {};
 
-            const actual = SudokuBoardReducer(undefined, action);
+                const actual = SudokuBoardReducer(undefined, action);
 
-            const expected = {
-                ...getInitialState()
-            };
+                const expected = {
+                    ...getInitialState()
+                };
 
-            expect(actual).toEqual(expected);
+                expect(actual).toEqual(expected);
+            });
+
+            it('should return the current state for unknown actions', () => {
+                const action = { type: 'SOME_UNKNOWN_ACTION' };
+
+                const actual = SudokuBoardReducer(getInitialState(), action);
+
+                const expected = {
+                    ...getInitialState()
+                };
+
+                expect(actual).toEqual(expected);
+            });
         });
 
-        it('should return the current state for unknown actions', () => {
-            const action = { type: 'SOME_UNKNOWN_ACTION' };
+        describe('updateBoardAction', () => {
+            it('should update the board when firing off updateBoardAction', () => {
+                const action = updateBoardAction({board: 'some board', isEmpty: false});
 
-            const actual = SudokuBoardReducer(getInitialState(), action);
+                const actual = SudokuBoardReducer(undefined, action);
 
-            const expected = {
-                ...getInitialState()
-            };
+                const expected = {
+                    ...getInitialState(),
+                    board: 'some board',
+                    isEmpty: false
+                };
 
-            expect(actual).toEqual(expected);
+                expect(actual).toEqual(expected);
+            });
+        });
+
+        describe('updateErrorCellsAction', () => {
+            it('should update the error cells when firing off updateErrorCellsAction', () => {
+                const action = updateErrorCellsAction({errorCells: 'some error cells', isValid: false});
+
+                const actual = SudokuBoardReducer(undefined, action);
+
+                const expected = {
+                    ...getInitialState(),
+                    errorCells: 'some error cells', isValid: false
+                };
+
+                expect(actual).toEqual(expected);
+            });
+        });
+
+        describe('updateSolvedCellsAction', () => {
+            it('should update the solved cells when firing off updateSolvedCellsAction', () => {
+                const action = updateSolvedCellsAction({solvedCells: 'some solved cells', isSolved: false});
+
+                const actual = SudokuBoardReducer(undefined, action);
+
+                const expected = {
+                    ...getInitialState(),
+                    solvedCells: 'some solved cells', isSolved: false
+                };
+
+                expect(actual).toEqual(expected);
+            });
+        });
+
+        describe('resetAction', () => {
+            it('should reset the board cells when firing off resetAction', () => {
+                const action = resetAction();
+
+                const actual = SudokuBoardReducer(undefined, action);
+
+                const expected = {
+                    ...getInitialState()
+                };
+
+                expect(actual).toEqual(expected);
+            });
         });
     });
 
-    describe('Update Cell Action', () => {
-        it('should call the UPDATE_BOARD and UPDATE_ERROR_CELLS actions when updating a valid cell', () => {
-            updateCell(4, 4, 1)(dispatch, getState);
+    describe('Async Actions', () => {
+        describe('Update Cell', () => {
+            it('should call the UPDATE_BOARD and UPDATE_ERROR_CELLS actions when updating a valid cell', () => {
+                updateCell(4, 4, 1)(dispatch, getState);
 
-            const updateBoardAction = { type: UPDATE_BOARD, payload: { board: getOneCellBoard(), isEmpty: false } };
-            const updateErrorCellsAction = {
-                type: UPDATE_ERROR_CELLS,
-                payload: { errorCells: getValidErrorCells(), isValid: true }
-            };
+                const updateBoardActionExpected = updateBoardAction({ board: getOneCellBoard(), isEmpty: false });
+                const updateErrorCellsActionExpected = updateErrorCellsAction({
+                    errorCells: getValidErrorCells(),
+                    isValid: true
+                });
 
-            expect(dispatch).toHaveBeenCalledWith(updateBoardAction);
-            expect(dispatch).toHaveBeenCalledWith(updateErrorCellsAction);
-        });
+                expect(dispatch).toHaveBeenCalledWith(updateBoardActionExpected);
+                expect(dispatch).toHaveBeenCalledWith(updateErrorCellsActionExpected);
+            });
 
-        it('should call the UPDATE_BOARD and UPDATE_ERROR_CELLS actions when updating an invalid cell', () => {
-            updateCell(4, 4, -1)(dispatch, getState);
+            it('should call the UPDATE_BOARD and UPDATE_ERROR_CELLS actions when updating an invalid cell', () => {
+                updateCell(4, 4, -1)(dispatch, getState);
 
-            const updateBoardAction = { type: UPDATE_BOARD, payload: { board: getEmptyBoard(), isEmpty: true } };
-            const updateErrorCellsAction = {
-                type: UPDATE_ERROR_CELLS,
-                payload: { errorCells: getInvalidErrorCells(), isValid: false }
-            };
-
-            expect(dispatch).toHaveBeenCalledWith(updateBoardAction);
-            expect(dispatch).toHaveBeenCalledWith(updateErrorCellsAction);
-        });
-    });
-
-    describe('Clear Board Errors Action', () => {
-        it('should call the UPDATE_ERROR_CELLS action when clearing board errors', () => {
-            clearBoardErrors()(dispatch, getState);
-
-            const updateErrorCellsAction = {
-                type: UPDATE_ERROR_CELLS,
-                payload: { errorCells: getValidErrorCells(), isValid: true }
-            };
-
-            expect(dispatch).toHaveBeenCalledWith(updateErrorCellsAction);
-        });
-    });
-
-    describe('Solve Board Action', () => {
-        it('should call the UPDATE_BOARD and UPDATE_SOLVED_CELLS actions when solving a valid board', () => {
-            solveBoard()(dispatch, getState);
-
-            const updateBoardAction = { type: UPDATE_BOARD, payload: { board: getSolvedBoard(), isEmpty: false } };
-            const updateSolvedCellsAction = {
-                type: UPDATE_SOLVED_CELLS,
-                payload: { solvedCells: getSolvedSolvedCells(), isSolved: true }
-            };
-
-            expect(dispatch).toHaveBeenCalledWith(updateBoardAction);
-            expect(dispatch).toHaveBeenCalledWith(updateSolvedCellsAction);
-        });
-    });
-
-    describe('Reset Board Action', () => {
-        it('should reset the board for a valid reset board action', () => {
-            const action = resetBoard();
-
-            const actual = SudokuBoardReducer(
-                {
-                    board: getOneCellBoard(),
+                const updateBoardActionExpected = updateBoardAction({ board: getEmptyBoard(), isEmpty: true });
+                const updateErrorCellsActionExpected = updateErrorCellsAction({
                     errorCells: getInvalidErrorCells(),
+                    isValid: false
+                });
+
+                expect(dispatch).toHaveBeenCalledWith(updateBoardActionExpected);
+                expect(dispatch).toHaveBeenCalledWith(updateErrorCellsActionExpected);
+            });
+        });
+
+        describe('Clear Board Errors', () => {
+            it('should call the UPDATE_ERROR_CELLS action when clearing board errors', () => {
+                clearBoardErrors()(dispatch, getState);
+
+                const updateErrorCellsActionExpected = updateErrorCellsAction({
+                    errorCells: getValidErrorCells(),
+                    isValid: true
+                });
+
+                expect(dispatch).toHaveBeenCalledWith(updateErrorCellsActionExpected);
+            });
+        });
+
+        describe('Solve Board', () => {
+            it('should call the UPDATE_BOARD and UPDATE_SOLVED_CELLS actions when solving a valid board', () => {
+                solveBoard()(dispatch, getState);
+
+                const updateBoardActionExpected = updateBoardAction({ board: getSolvedBoard(), isEmpty: false });
+                const updateSolvedCellsActionExpected = updateSolvedCellsAction({
                     solvedCells: getSolvedSolvedCells(),
-                    isValid: true,
                     isSolved: true
-                },
-                action
-            );
+                });
 
-            const expected = { ...getInitialState() };
-
-            expect(actual).toEqual(expected);
+                expect(dispatch).toHaveBeenCalledWith(updateBoardActionExpected);
+                expect(dispatch).toHaveBeenCalledWith(updateSolvedCellsActionExpected);
+            });
         });
-    });
 
-    describe('Reset Solution Action', () => {
-        it('should call the UPDATE_BOARD and UPDATE_SOLVED_CELLS actions when resetting a solution', () => {
-            resetSolution()(dispatch, getState);
+        describe('Reset Board', () => {
+            it('should reset the board for a valid reset board action', () => {
+                const action = resetBoard();
 
-            const updateBoardAction = { type: UPDATE_BOARD, payload: { board: getEmptyBoard(), isEmpty: true } };
-            const updateSolvedCellsAction = {
-                type: UPDATE_SOLVED_CELLS,
-                payload: { solvedCells: getUnsolvedSolvedCells(), isSolved: false }
-            };
+                const actual = SudokuBoardReducer(
+                    {
+                        board: getOneCellBoard(),
+                        errorCells: getInvalidErrorCells(),
+                        solvedCells: getSolvedSolvedCells(),
+                        isValid: true,
+                        isSolved: true
+                    },
+                    action
+                );
 
-            expect(dispatch).toHaveBeenCalledWith(updateBoardAction);
-            expect(dispatch).toHaveBeenCalledWith(updateSolvedCellsAction);
+                const expected = { ...getInitialState() };
+
+                expect(actual).toEqual(expected);
+            });
         });
-    });
 
-    describe('Generate Board Action', () => {
-        it('should call the RESET and UPDATE_BOARD actions when generating a new board', () => {
-            generateBoard()(dispatch, getState);
+        describe('Reset Solution', () => {
+            it('should call the UPDATE_BOARD and UPDATE_SOLVED_CELLS actions when resetting a solution', () => {
+                resetSolution()(dispatch, getState);
 
-            const resetAction = resetBoard();
-            const updateBoardAction = { type: UPDATE_BOARD, payload: { board: getGeneratedBoard(), isEmpty: false } };
+                const updateBoardActionExpected = updateBoardAction({ board: getEmptyBoard(), isEmpty: true });
+                const updateSolvedCellsActionExpected = updateSolvedCellsAction({
+                    solvedCells: getUnsolvedSolvedCells(),
+                    isSolved: false
+                });
 
-            expect(dispatch).toHaveBeenCalledWith(resetAction);
-            expect(dispatch).toHaveBeenCalledWith(updateBoardAction);
+                expect(dispatch).toHaveBeenCalledWith(updateBoardActionExpected);
+                expect(dispatch).toHaveBeenCalledWith(updateSolvedCellsActionExpected);
+            });
+        });
+
+        describe('Generate Board', () => {
+            it('should call the RESET and UPDATE_BOARD actions when generating a new board', () => {
+                generateBoard()(dispatch, getState);
+
+                const resetAction = resetBoard();
+                const updateBoardActionExpected = updateBoardAction({ board: getGeneratedBoard(), isEmpty: false });
+
+                expect(dispatch).toHaveBeenCalledWith(resetAction);
+                expect(dispatch).toHaveBeenCalledWith(updateBoardActionExpected);
+            });
         });
     });
 });
